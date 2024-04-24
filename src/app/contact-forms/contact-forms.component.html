@@ -1,0 +1,61 @@
+<div class="contactForm">
+  <form [formGroup]="contactForms" (ngSubmit)="onSubmit()">
+    <label for="name">Name</label>
+    <input type="text" id="name" formControlName="name">
+
+    <label for="age">Age</label>
+    <input type="number" id="age" formControlName="age">
+
+    <label for="gender">Gender</label>
+    <select id="gender" formControlName="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <label for="date">Date</label>
+    <input type="date" id="date" formControlName="date">
+
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+
+
+  <div>
+    <label for="search-name">Search by Name</label>
+<!--    <input type="text" id="search-name" #searchName (input)="onSearchName(searchName.value)">-->
+    <input type="text" id="search-name" formControlName="searchName">
+  </div>
+  <div>
+    <label for="search-gender">Search by Gender</label>
+<!--    <select id="search-gender" #searchGender (change)="onSearchGender(searchGender.value)">-->
+    <select id="search-gender" formControlName="searchGender">
+      <option value="">All</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+  </div>
+
+  <table *ngIf="(contacts | contactFilter: contactForms.get('searchName')?.value : contactForms.get('searchGender')?.value).length > 0">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let contact of contacts | contactFilter: contactForms.get('searchName')?.value : contactForms.get('searchGender')?.value; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ contact.name }}</td>
+      <td>{{ contact.age }}</td>
+      <td>{{ contact.gender }}</td>
+      <td>{{ contact.date | date:'dd:mm:yyyy' }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
